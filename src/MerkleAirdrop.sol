@@ -58,4 +58,12 @@ contract MerkleAirdrop {
         //eg. the receiving address might not be able to receive the token, safeTransfer will revert on such cases
         i_airdopToken.safeTransfer(account, amount);
     }
+
+    function getMerkleRoot() external view returns (bytes32) {
+        return i_merkleRoot;
+    }
+
+    function getAirdropToken() external view returns (IERC20) {
+        return i_airdopToken;
+    }
 }

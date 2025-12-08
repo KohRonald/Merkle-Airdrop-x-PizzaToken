@@ -16,3 +16,17 @@
 - Hashing the data (address + amount) to get the leaf node, and calculating with intermediate hashes to get the Merkle Root
 - Data is hashed twice to calculate the leaf node, this is done to avoid hashing collision, preventing Second Pre-Image Attack
 - Compare the calculated Merkle Root against the expected Merkle Root, if matches, address is eligible for airdrop
+
+## Merkle Tree Generation
+Generating proofs utilising murky library by dmfxyz (https://github.com/dmfxyz/murky)
+
+1. GenerateInput.s.sol
+- Generating Merkle Tree with the  which takes in variables and concatenate them together, writing to input.json file
+Allow permissions in foundry.toml for writing to file: 
+```
+fs_permissions = [{ access = "read-write", path = "./" }]
+```
+
+2. MakeMerkle.s.sol
+- Modified from Murky Github Repo
+- Essentially hashes and calculate the proof at every tree node level, utilsing the address and amount as data
