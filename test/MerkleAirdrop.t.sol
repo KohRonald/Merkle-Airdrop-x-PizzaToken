@@ -4,8 +4,10 @@ pragma solidity ^0.8.24;
 import {Test, console2} from "forge-std/Test.sol";
 import {MerkleAirdrop} from "src/MerkleAirdrop.sol";
 import {PizzaToken} from "src/PizzaToken.sol";
+import {DeployMerkleAirdrop} from "script/DeployMerkleAirdrop.s.sol";
+import {ZkSyncChainChecker} from "lib/foundry-devops/src/ZkSyncChainChecker.sol";
 
-contract MerkleAirdropTest is Test {
+contract MerkleAirdropTest is ZkSyncChainChecker, Test {
     PizzaToken public pizzaToken;
     MerkleAirdrop public merkleAirdrop;
 
@@ -22,11 +24,19 @@ contract MerkleAirdropTest is Test {
     address user;
     uint256 userPrivateKey;
 
+    /**
+     * @notice We only run the deployer script on non-ZkSync chains. This is because the deployer script does not work when deploying on ZkSync Chains.
+     */
     function setUp() public {
-        pizzaToken = new PizzaToken();
-        merkleAirdrop = new MerkleAirdrop(ROOT, pizzaToken);
-        pizzaToken.mint(pizzaToken.owner(), AMOUNT_TO_SEND); //Mint the inital token
-        pizzaToken.transfer(address(merkleAirdrop), AMOUNT_TO_SEND); //Send tokens to airdrop contract as claims are withdrawn there
+        if (!isZkSyncChain()) {
+            DeployMerkleAirdrop deployer = new DeployMerkleAirdrop();
+            (merkleAirdrop, pizzaToken) = deployer.run();
+        } else {
+            pizzaToken = new PizzaToken();
+            merkleAirdrop = new MerkleAirdrop(ROOT, pizzaToken);
+            pizzaToken.mint(pizzaToken.owner(), AMOUNT_TO_SEND); //Mint the inital token
+            pizzaToken.transfer(address(merkleAirdrop), AMOUNT_TO_SEND); //Send tokens to airdrop contract as claims are withdrawn there
+        }
         (user, userPrivateKey) = makeAddrAndKey("user"); //makeAddrAndKey will generate the address of the user and their private key
     }
 

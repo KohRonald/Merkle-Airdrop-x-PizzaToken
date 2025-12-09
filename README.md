@@ -21,12 +21,11 @@
 Generating proofs utilising murky library by dmfxyz (https://github.com/dmfxyz/murky)
 
 1. GenerateInput.s.sol
-- Generating Merkle Tree with the  which takes in variables and concatenate them together, writing to input.json file
-Allow permissions in foundry.toml for writing to file: 
+- Generating Merkle Tree which takes in variables and concatenate them together, writing to input.json file by allowing permissions in foundry.toml for writing to file: 
 ```
 fs_permissions = [{ access = "read-write", path = "./" }]
 ```
 
-2. MakeMerkle.s.sol
+1. MakeMerkle.s.sol
 - Modified from Murky Github Repo
-- Essentially hashes and calculate the proof at every tree node level, utilsing the address and amount as data
+- Essentially hashes and calculate the proof at every tree node level, utilising the address + amount as input values
