@@ -31,7 +31,7 @@ fs_permissions = [{ access = "read-write", path = "./" }]
 - Essentially hashes and calculate the proof at every tree node level, utilising the address + amount as input values
 
 ## EIPS
-### EIP-191
+### EIP-191 (Standardizes Signed Data)
 - Unstructured message when signing transaction using a wallet such as Metamask
 - Introduced a standardize way of what a signed data should look like
 - Proposed the following format for signed data: 0x19 (1 byte version) (version specific data) (data to sign)
@@ -44,7 +44,7 @@ fs_permissions = [{ access = "read-write", path = "./" }]
       3. 0x02: personal_sign messages.
   - (data to sign): The message intended to be signed.
 
-### EIP-712
+### EIP-712 (Standardizes the Format of Signing Data)
 - Structured message when signing transaction using a wallet such as Metamask
 - Introduced a standardize structure for transactions to display their data
 - Proposed the following format for signed data: 0x19 0x01 (domainSeparator) (hashStruct(message))
