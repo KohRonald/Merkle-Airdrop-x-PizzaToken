@@ -34,23 +34,23 @@ fs_permissions = [{ access = "read-write", path = "./" }]
 ### EIP-191
 - Unstructured message when signing transaction using a wallet such as Metamask
 - Introduced a standardize way of what a signed data should look like
-- Proposed the following format for signed data: 0x19 <1 byte version> <version specific data> <data to sign>
+- Proposed the following format for signed data: 0x19 (1 byte version) (version specific data) (data to sign)
   - 0x19: The prefix, signifies that the data is a signature.
-  - 1 byte version: The version of “signed data” is used
+  - (1 byte version): The version of “signed data” is used
       1. Allows different versions to have different signed data structures.
-  - <version specific data>:
+  - (version specific data):
       1. 0x00: Data with the intended validator.
       2. 0x01: Structures data - most often used in production apps and associated with EIP-712, discussed in the next section.
       3. 0x02: personal_sign messages.
-  - <data to sign>: The message intended to be signed.
+  - (data to sign): The message intended to be signed.
 
 ### EIP-712
 - Structured message when signing transaction using a wallet such as Metamask
 - Introduced a standardize structure for transactions to display their data
-- Proposed the following format for signed data: 0x19 0x01 <domainSeparator> <hashStruct(message)>
+- Proposed the following format for signed data: 0x19 0x01 (domainSeparator) (hashStruct(message))
   - 0x19: The prefix (from before)
   - 0x01: the version
-  - <domainSeparator>: This is the data associated with the version.
+  - (domainSeparator): This is the data associated with the version.
     - A domain separator is the hash of a struct defining the domain of the message being signed.
     - The struct contains one of all of the following and is known as the eip712Domain:
     ```
@@ -59,11 +59,11 @@ fs_permissions = [{ access = "read-write", path = "./" }]
 	   string version;
 	   uint256 chainId;
 	   address verifyingContract;
-   }
-   ```
-  - <hashStruct(message)>: A hash struct of the message to sign
+    }
+    ```
+  - (hashStruct(message)): A hash struct of the message to sign
 - The EIP-712 data can be thought of as:
-  - 0x19 0x01 <hash of who verifies this signature, and what the verifier looks like> < hash of signed structured message, and what the signature looks like>
+  - 0x19 0x01 (hash of who verifies this signature, and what the verifier looks like) (hash of signed structured message, and what the signature looks like)
 - Allows for a readable way for users to verify before signing
 - Solve the problem of replay attacks, the data to prevent replay attacks is encoded inside the structured data
 
