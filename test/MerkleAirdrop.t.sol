@@ -47,7 +47,7 @@ contract MerkleAirdropTest is ZkSyncChainChecker, Test {
         console2.log("startingBalance: ", startingBalance);
 
         vm.prank(user);
-        merkleAirdrop.claim(user, AMOUNT_TO_CLAIM, PROOF);
+        merkleAirdrop.claim(user, AMOUNT_TO_CLAIM, PROOF,,,);
 
         uint256 endingBalance = pizzaToken.balanceOf(user);
         console2.log("endingBalance: ", endingBalance);
