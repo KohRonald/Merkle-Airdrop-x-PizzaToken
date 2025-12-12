@@ -10,6 +10,7 @@
 2. MerkleAirdop.sol
    - Checks if address is eligible for claim
    - Utilises Merkle proofs
+   - Signature validation checks 
 
 
 ## Merkle Proof
