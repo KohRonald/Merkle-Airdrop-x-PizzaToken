@@ -6,6 +6,7 @@
 ## Contracts
 1. PizzaToken.sol
    - The ERC20 token for airdrop
+   - Token mint only
 
 2. MerkleAirdop.sol
    - Checks if address is eligible for claim
