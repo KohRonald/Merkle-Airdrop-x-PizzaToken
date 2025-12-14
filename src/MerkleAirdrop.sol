@@ -54,7 +54,7 @@ contract MerkleAirdrop is EIP712 {
         }
 
         //Check if signature is valid
-        if (!_isValidSignature(account, getMessage(account, amount), v, r, s)) {
+        if (!_isValidSignature(account, getMessageHash(account, amount), v, r, s)) {
             revert MerkleAirdrop__InvalidSignature();
         }
 
@@ -85,7 +85,7 @@ contract MerkleAirdrop is EIP712 {
      * @param account Address to claim airdrop
      * @param amount Amount of tokens to claim from airdrop
      */
-    function getMessage(address account, uint256 amount) public view returns (bytes32) {
+    function getMessageHash(address account, uint256 amount) public view returns (bytes32) {
         return _hashTypedDataV4(
             //Hashing the encoded struct hash and the struct values
             keccak256(abi.encode(MESSAGE_TYPEHASH, AirdropClaim({account: account, amount: amount})))

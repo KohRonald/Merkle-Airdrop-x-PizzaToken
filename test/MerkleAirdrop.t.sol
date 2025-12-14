@@ -21,6 +21,7 @@ contract MerkleAirdropTest is ZkSyncChainChecker, Test {
     bytes32 proofTwo = 0xe5ebd1e1b5a5478a944ecab36a9a954ac3b6b8216875f6524caa7a1d87096576;
     bytes32[] public PROOF = [proofOne, proofTwo];
 
+    address public gasPayer;
     address user;
     uint256 userPrivateKey;
 
@@ -38,6 +39,7 @@ contract MerkleAirdropTest is ZkSyncChainChecker, Test {
             pizzaToken.transfer(address(merkleAirdrop), AMOUNT_TO_SEND); //Send tokens to airdrop contract as claims are withdrawn there
         }
         (user, userPrivateKey) = makeAddrAndKey("user"); //makeAddrAndKey will generate the address of the user and their private key
+        gasPayer = makeAddr("gasPayer");
     }
 
     function testUsersCanClaim() public {
@@ -46,8 +48,15 @@ contract MerkleAirdropTest is ZkSyncChainChecker, Test {
         uint256 startingBalance = pizzaToken.balanceOf(user);
         console2.log("startingBalance: ", startingBalance);
 
-        vm.prank(user);
-        merkleAirdrop.claim(user, AMOUNT_TO_CLAIM, PROOF,,,);
+        bytes32 digest = merkleAirdrop.getMessageHash(user, AMOUNT_TO_CLAIM);
+
+        //sign message
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(userPrivateKey, digest); //returns v,r,s vaules of the signed message
+
+        //gasPayer call claims on behalf of user using signed message
+        //gasPayer essentially pays the gas, but user will receive the tokens
+        vm.prank(gasPayer);
+        merkleAirdrop.claim(user, AMOUNT_TO_CLAIM, PROOF, v, r, s);
 
         uint256 endingBalance = pizzaToken.balanceOf(user);
         console2.log("endingBalance: ", endingBalance);
