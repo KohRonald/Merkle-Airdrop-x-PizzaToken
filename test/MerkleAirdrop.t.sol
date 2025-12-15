@@ -5,7 +5,7 @@ import {Test, console2} from "forge-std/Test.sol";
 import {MerkleAirdrop} from "src/MerkleAirdrop.sol";
 import {PizzaToken} from "src/PizzaToken.sol";
 import {DeployMerkleAirdrop} from "script/DeployMerkleAirdrop.s.sol";
-import {ZkSyncChainChecker} from "lib/foundry-devops/src/ZkSyncChainChecker.sol";
+import {ZkSyncChainChecker} from "foundry-devops/src/ZkSyncChainChecker.sol";
 
 contract MerkleAirdropTest is ZkSyncChainChecker, Test {
     PizzaToken public pizzaToken;
